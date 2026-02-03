@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
 import SockJS from 'sockjs-client/dist/sockjs';
-
 import { Client } from "@stomp/stompjs";
 
+export const AUTH_TOKEN =
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjE3IiwiaWF0IjoxNzcwMDk4NjM0LCJleHAiOjE3NzAxMTY2MzQsInJlc291cmNlSWQiOjQxMjMzMjA0NzksInR5cGUiOiJBQ0NFU1MiLCJ1c2VySWQiOjQxMjMzMjA0NzksInNzbyI6IiIsInVzZXJuYW1lIjoiYWRtaW4xNyIsInNpZCI6MTcsImNvcnBvcmF0ZUlkIjoxLCJ0aW1lc3RhbXAiOjE3NzAwOTg2MzQ5MDh9.rD-6l1rs0CtDUEmOCsyheaidq7ZHPgc6pvHvU6GotBE";
 
 export default function NotificationStompClient() {
-    const WS_URL = "http://localhost:8083/ws"; // Spring SockJS endpoint
-    // const [messages, setMessages] = useState([]);
+  const WS_URL = "http://localhost:8083/ws";
   const [connected, setConnected] = useState(false);
-  const token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjE2IiwiaWF0IjoxNzY5NjY4Mjg1LCJleHAiOjE3Njk2ODYyODUsInJlc291cmNlSWQiOjQxMjMxNDQ3MDQsInR5cGUiOiJBQ0NFU1MiLCJ1c2VySWQiOjQxMjMxNDQ3MDQsInNzbyI6IiIsInVzZXJuYW1lIjoiYWRtaW4xNiIsInNpZCI6MTYsImNvcnBvcmF0ZUlkIjoxLCJ0aW1lc3RhbXAiOjE3Njk2NjgyODUxMTB9.zKlE0kSkP6kBEM31AC3U4xK4zrxeOXquSG5-sBrRkpk";
 
   useEffect(() => {
-    // Create STOMP client using SockJS
+    // localStorage.setItem("AUTH_TOKEN", AUTH_TOKEN);
+    // console.log("WS token stored:", localStorage.getItem("AUTH_TOKEN"));
+
+    // const token = localStorage.getItem("AUTH_TOKEN");
+
     const client = new Client({
       webSocketFactory: () => new SockJS(WS_URL),
       connectHeaders: {
-        // Adapt this to what WebSocketAuthInterceptor expects:
-        // Common patterns:
-        // Authorization: `Bearer ${token}`
-        // or "X-Auth-Token": token
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
+        Credential: true
       },
       debug: (str) => {
         console.log(str);
@@ -27,22 +27,12 @@ export default function NotificationStompClient() {
       onConnect: () => {
         console.log("STOMP connected");
         setConnected(true);
-
-        // Subscribe to a topic your backend sends notifications to
-        // client.subscribe("/topic/notifications", (message) => {
-        //   const body = JSON.parse(message.body);
-        //   setMessages((prev) => [...prev, body]);
-        // });
-
-        // Optional: send an initial handshake message to backend
-        // if you have a @MessageMapping("/handshake") on server
-        // client.publish({
-        //   destination: "/app/handshake",
-        //   body: JSON.stringify({ msg: "hello from frontend" }),
-        // });
       },
       onStompError: (frame) => {
-        console.error("Broker reported error", frame.headers["message"]);
+        console.error(
+          "Broker reported error",
+          frame.headers["message"]
+        );
         console.error("Additional details", frame.body);
       },
       onWebSocketClose: () => {
@@ -56,17 +46,12 @@ export default function NotificationStompClient() {
     return () => {
       client.deactivate();
     };
-  }, [token]);
+  }, []);
 
   return (
     <div>
       <h3>WebSocket Notifications</h3>
       <p>Status: {connected ? "Connected" : "Disconnected"}</p>
-      {/* <ul> */}
-        {/* {messages.map((m, i) => (
-          <li key={i}>{JSON.stringify(m)}</li>
-        ))}
-      </ul> */}
     </div>
   );
 }
