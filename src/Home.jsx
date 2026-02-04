@@ -3,8 +3,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 
-export const AUTH_TOKEN =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjE3IiwiaWF0IjoxNzcwMDk4NjM0LCJleHAiOjE3NzAxMTY2MzQsInJlc291cmNlSWQiOjQxMjMzMjA0NzksInR5cGUiOiJBQ0NFU1MiLCJ1c2VySWQiOjQxMjMzMjA0NzksInNzbyI6IiIsInVzZXJuYW1lIjoiYWRtaW4xNyIsInNpZCI6MTcsImNvcnBvcmF0ZUlkIjoxLCJ0aW1lc3RhbXAiOjE3NzAwOTg2MzQ5MDh9.rD-6l1rs0CtDUEmOCsyheaidq7ZHPgc6pvHvU6GotBE";
+// export const AUTH_TOKEN =
+//   "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjE3IiwiaWF0IoxNzcwMDk4NjM0LCJleHAiOjE3NzAxMTY2MzQsInJlc291cmNlSWQiOjQxMjMzMjA0NzksInR5cGUiOiJBQ0NFU1MiLCJ1c2VySWQiOjQxMjMzMjA0NzksInNzbyI6IiIsInVzZXJuYW1lIjoiYWRtaW4xNyIsInNpZCI6MTcsImNvcnBvcmF0ZUlkIjoxLCJ0aW1lc3RhbXAiOjE3NzAwOTg2MzQ5MDh9.rD-6l1rs0CtDUEmOCsyheaidq7ZHPgc6pvHvU6GotBE";
 
 export const Home = () => {
   const [data, setData] = useState(null);
