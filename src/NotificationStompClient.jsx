@@ -1,3 +1,4 @@
+<<<<<<< HEAD
   import React, { useEffect, useState } from "react";
   import SockJS from 'sockjs-client/dist/sockjs';
   import { Client } from "@stomp/stompjs";
@@ -62,3 +63,71 @@
       </div>
     );
   }
+=======
+import { useEffect, useState } from "react";
+import SockJS from "sockjs-client/dist/sockjs";
+import { Client } from "@stomp/stompjs";
+
+export default function NotificationStompClient() {
+
+  const WS_URL = "http://localhost:8083/ws";
+
+  const [connected, setConnected] = useState(false);
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+
+    const client = new Client({
+
+      webSocketFactory: () =>
+        new SockJS(WS_URL, null, {
+          withCredentials: true  // 🔥 IMPORTANT
+        }),
+
+      debug: (str) => console.log(str),
+
+      reconnectDelay: 5000,
+
+      onConnect: () => {
+        console.log("STOMP connected");
+        setConnected(true);
+
+        client.subscribe("/user/queue/notification", (message) => {
+          console.log("Notification received:", message.body);
+          setMessages((prev) => [...prev, message.body]);
+        });
+      },
+
+      onStompError: (frame) => {
+        console.error("Broker error:", frame.headers["message"]);
+        console.error("Details:", frame.body);
+      },
+
+      onWebSocketClose: () => {
+        console.log("WebSocket closed");
+        setConnected(false);
+      },
+    });
+
+    client.activate();
+
+    return () => {
+      client.deactivate();
+    };
+
+  }, []);
+
+  return (
+    <div>
+      <h3>WebSocket Notifications</h3>
+      <p>Status: {connected ? "Connected" : "Disconnected"}</p>
+
+      <ul>
+        {messages.map((m, index) => (
+          <li key={index}>{m}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+>>>>>>> ea09b94 (Adding the dummy notification check cookie)

@@ -28,6 +28,24 @@ export const Home = () => {
   });
 }, []);
 
+<<<<<<< HEAD
+=======
+    axios.get("http://localhost:8083/api/v1/notification/getString", {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjE2IiwiaWF0IjoxNzcwMTAzMjE4LCJleHAiOjE3NzAxMjEyMTgsInJlc291cmNlSWQiOjQxMjMxNDQ3MDQsInR5cGUiOiJBQ0NFU1MiLCJ1c2VySWQiOjQxMjMxNDQ3MDQsInNzbyI6IiIsInVzZXJuYW1lIjoiYWRtaW4xNiIsInNpZCI6MTYsImNvcnBvcmF0ZUlkIjoxLCJ0aW1lc3RhbXAiOjE3NzAxMDMyMTg5NTB9.ZFPe7LmGOZoH8EYd5VflkRXy5osloIWM6M0dsUIxq7s`,
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => {
+      setData(response.data);
+      console.log(data);
+      
+    })
+    .catch(error => {
+      console.error("API error:", error);
+    });
+  }, []);
+>>>>>>> ea09b94 (Adding the dummy notification check cookie)
 
   return (
     <div className="container mt-4">
